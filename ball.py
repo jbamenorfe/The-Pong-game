@@ -1,6 +1,8 @@
 
 
 from turtle import Turtle
+START_X = 0
+START_Y = 0
 
 
 class Ball(Turtle):
@@ -10,10 +12,20 @@ class Ball(Turtle):
 
     # Define a method to create the ball object
     def create_ball(self):
-        self.dot(20, "white")
-        self.goto(0, 0)
+        self.shape("circle")
+        self.color("white")
+        self.shapesize(stretch_wid=1, stretch_len=1)
         self.penup()
-        self.hideturtle()
+        self.goto(START_X, START_Y)
+
+    # Define a method to move the ball diagonally across the screen
+    def move(self):
+        new_x = self.xcor() + 5
+        new_y = self.ycor() + 5
+        self.goto(new_x, new_y)
+
+
+
 
 
 
