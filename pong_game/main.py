@@ -5,6 +5,7 @@ the replica of a tennis ball game. By JBAmenorfe on the 13th January 2025"""
 from turtle import Screen
 from paddle import Paddle
 from ball import Ball
+from scoreboard import ScoreBoard
 import time
 
 # Create the screen object
@@ -23,6 +24,9 @@ left_paddle = Paddle(-350, 0)
 # Create the ball object
 ball = Ball()
 
+# Create the scoreboard object
+scoreboard = ScoreBoard()
+
 
 screen.listen()
 screen.onkey(fun=right_paddle.move_up, key="Up")
@@ -34,7 +38,26 @@ screen.onkey(fun=left_paddle.move_down, key="s")
 game_is_on = True
 while game_is_on:
     screen.update()
-    time.sleep(0.1)
+    ball.move()
+    if ball.ycor() > 280 or ball.ycor() < -280:
+        ball.bounce_y()
+    time.sleep(ball.move_speed)
+
+    # Detect collision with the right paddle
+    if ball.distance(right_paddle) < 50 and ball.xcor() > 320 or ball.distance(left_paddle) < 50 and ball.xcor() < -320:
+        ball.bounce_x()
+
+    # Detect if right paddle misses ball
+    if ball.xcor() > 380:
+        # Ball has missed the paddle
+        ball.reset_position()
+        scoreboard.increase_l_score()
+
+    # Detect if left paddle misses ball
+    if ball.xcor() < -380:
+        ball.reset_position()
+        scoreboard.increase_r_score()
+
 
 
 
